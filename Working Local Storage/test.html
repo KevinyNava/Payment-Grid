@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Workind with Local Storage</h1>
+
+<input type="text" id="inputData">
+<button onclick="addData()" id="buttonAdd">Add Data</button>
+<ul id="list"></ul>
+
+
+
+
+<script type="text/javascript">
+
+var data = [];
+  
+    window.onload = function(){
+        if (JSON.parse(localStorage.getItem("item")) != null) {
+            data = JSON.parse(localStorage.getItem("item"));
+        }
+    }
+        var inputData = document.getElementById('inputData');
+
+        function addData(){
+        var list = document.getElementById('list');
+        var txtNode = document.createTextNode(inputData.value);
+        var li = document.createElement('LI');
+        var spanNode = document.createElement('SPAN');
+        spanNode.innerHTML = " X"
+
+        li.appendChild(txtNode);
+        list.appendChild(li);
+        li.appendChild(spanNode);
+        data.push(inputData.value);
+      
+        saveData();
+
+        inputData.value = "";   
+
+            const close = document.querySelectorAll('span');
+            for (let i = 0; i<close.length; i++){
+                        close[i].addEventListener('click', ()=>{
+                            close[i].parentElement.style.opacity = 0;
+                            setTimeout(()=>{
+                                close[i].parentElement.style.display = "none";
+                                close[i].parentElement.remove();
+                            }, 500);
+                        })
+                    }
+
+    }
+  
+       function saveData(){
+            var valueData = data;
+            myJson = JSON.stringify(valueData);
+            localStorage.setItem("item", myJson);
+       }
+       
+    
+        
+       var returnValue = JSON.parse(localStorage.getItem("item"));
+       if(returnValue != null){ 
+
+            for (var i = 0; i < returnValue.length; i++) {
+                var txtValue = document.createTextNode(returnValue[i]);
+                var ulValue = document.getElementById('list');
+                var liValue = document.createElement('LI');
+                var spanValue = document.createElement('SPAN');
+                spanValue.innerHTML = " X"
+
+                liValue.appendChild(txtValue);
+                ulValue.appendChild(liValue);
+                liValue.appendChild(spanValue);
+                
+                const close = document.querySelectorAll('span');
+                    for (let i = 0; i<close.length; i++){
+                                close[i].addEventListener('click', ()=>{
+                                    close[i].parentElement.style.opacity = 0;
+                                    delItems();
+                                    setTimeout(()=>{
+                                        close[i].parentElement.style.display = "none";
+                                        close[i].parentElement.remove();
+                                     }, 500);
+                                })
+                            }
+           }
+        }
+
+       function delItems (index){
+        
+        data.splice(index,1);
+       }
+
+
+       
+
+</script>
+
+</body>
+</html>
